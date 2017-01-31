@@ -45,7 +45,12 @@ public class RepoPresenter implements IRepoPresenter, GetRepoListener {
     public void onSuccess(List<Repo> repos) {
         repoView.showLoader(false);
 
-        repoView.setList(repos);
+        if(repos!=null && repos.size()>0) {
+
+            repoView.setList(repos);
+        }else {
+            repoView.emptyList();
+        }
     }
 
     @Override

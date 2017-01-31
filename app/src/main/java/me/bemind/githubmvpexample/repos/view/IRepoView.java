@@ -12,6 +12,8 @@ public interface IRepoView {
 
     void setList(List<Repo> list);
 
+    void emptyList();
+
     void showLoader(boolean show);
 
     void onError(Throwable e);

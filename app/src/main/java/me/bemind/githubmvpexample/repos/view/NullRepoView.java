@@ -23,4 +23,9 @@ public class NullRepoView implements IRepoView {
     public void onError(Throwable e) {
 
     }
+
+    @Override
+    public void emptyList() {
+
+    }
 }

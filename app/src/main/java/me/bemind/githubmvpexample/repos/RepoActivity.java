@@ -94,6 +94,11 @@ public class RepoActivity extends Activity  implements IRepoView, View.OnClickLi
     }
 
     @Override
+    public void emptyList() {
+        Toast.makeText(this,"Nessun Repo trovato per l'utente inserito",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public void showLoader(boolean show) {
 
         if(show){
