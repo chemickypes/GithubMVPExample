@@ -10,7 +10,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * Created by angelomoroni on 31/01/17.
@@ -43,6 +46,45 @@ public class RepoLogic implements IRepoLogic {
             }
         });
 
+    }
+
+
+    @Override
+    public Observable<Repo> getReposList(String nickname) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.github.com/")
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        IGithubService service = retrofit.create(IGithubService.class);
+
+        return  service.listReposAsObservable(nickname)
+                .flatMap(new Func1<List<Repo>, Observable<Repo>>() {
+                    @Override
+                    public Observable<Repo> call(List<Repo> repos) {
+                        return Observable.from(repos);
+                    }
+                });
+
+        //return null;
+    }
+
+
+
+    @Override
+    public Observable<List<Repo>> getReposListAsList(String nickname) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.github.com/")
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        IGithubService service = retrofit.create(IGithubService.class);
+
+        return  service.listReposAsObservable(nickname);
     }
 
     private List<String> getFakeStringList() {
